@@ -4,6 +4,7 @@ LIMIT = 90
 
   def initialize
     @balance = 0
+    @journey = false
   end
 
   attr_reader :balance
@@ -14,6 +15,19 @@ LIMIT = 90
   end
 
   def deduct(amount)
-    @balance -= amount 
+    @balance -= amount
   end
+
+  def in_journey?
+    @journey
+  end
+
+  def touch_in
+    @journey = true
+  end
+
+  def touch_out
+    @journey = false
+  end
+
 end

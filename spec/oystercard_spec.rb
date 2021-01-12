@@ -25,4 +25,24 @@ describe Oystercard do
     expect{ subject.deduct(5) }.to change{ subject.balance }.by -5
   end
 
+  it { is_expected.to respond_to(:in_journey?) }
+  it { is_expected.to respond_to(:touch_in) }
+  it { is_expected.to respond_to(:touch_out) }
+
+  it "should return a default value of false" do
+    expect(subject.in_journey?).to be false
+  end
+
+  it "should return true when card touches in" do
+    subject.touch_in
+    expect(subject.in_journey?).to be true
+  end
+
+  it "should return false when when card touches out" do
+    subject.touch_in
+    subject.touch_out
+    expect(subject.in_journey?).to be false
+  end
+
+
 end
