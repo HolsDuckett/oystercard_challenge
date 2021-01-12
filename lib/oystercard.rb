@@ -12,4 +12,8 @@ LIMIT = 90
     raise "That's too much money. You've exceeded your limit of £#{LIMIT}." if (@balance + amount) > LIMIT
     @balance += amount
   end
+
+  def deduct(amount)
+    @balance -= amount 
+  end
 end
