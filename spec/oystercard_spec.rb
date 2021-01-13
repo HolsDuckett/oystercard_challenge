@@ -1,6 +1,7 @@
 require 'oystercard'
 
 describe Oystercard do
+  let (:entry_station) { double :entry_station }
 
   it { is_expected.to respond_to(:balance) }
 
@@ -24,35 +25,40 @@ describe Oystercard do
   end
 
   it { is_expected.to respond_to(:in_journey?) }
-  it { is_expected.to respond_to(:touch_in) }
+  it { is_expected.to respond_to(:touch_in).with(1).argument }
   it { is_expected.to respond_to(:touch_out) }
 
-  it "should return a default value of false" do
-    expect(subject.in_journey?).to be false
+  it "should state subject is not in a journey" do
+    expect(subject).not_to be_in_journey
   end
 
   it "should return true when card touches in" do
     subject.top_up(10)
-    subject.touch_in
-    expect(subject.in_journey?).to be true
+    subject.touch_in(entry_station)
+    expect(subject).to be_in_journey
   end
 
   it "should return false when card touches out" do
     subject.top_up(10)
-    subject.touch_in
+    subject.touch_in(entry_station)
     subject.touch_out
-    expect(subject.in_journey?).to be false
+    expect(subject).not_to be_in_journey
   end
 
   it "should change the balace after every touch out" do
     subject.top_up(10)
-    subject.touch_in
+    subject.touch_in(entry_station)
     subject.touch_out
     expect{ subject.touch_out }.to change{ subject.balance }.by -1
   end
 
   it "it should raise an error if your balance has insufficient funds" do
-    expect{ subject.touch_in }.to raise_error "You have insuffiecient funds."
+    expect{ subject.touch_in(entry_station) }.to raise_error "You have insuffiecient funds."
+  end
+
+  it "should remeber the entry station when you touch in" do
+    subject.top_up(10)
+    expect(subject.touch_in(entry_station)).to eq entry_station
   end
 
 end
