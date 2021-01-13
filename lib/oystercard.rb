@@ -1,6 +1,7 @@
 class Oystercard
 
 LIMIT = 90
+MINIMUM_FARE = 1
 
   def initialize
     @balance = 0
@@ -23,11 +24,13 @@ LIMIT = 90
   end
 
   def touch_in
+    raise 'You have insuffiecient funds.' if @balance < MINIMUM_FARE
     @journey = true
   end
 
   def touch_out
     @journey = false
   end
+
 
 end
