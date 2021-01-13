@@ -19,10 +19,8 @@ describe Oystercard do
    expect{ subject.top_up(1) }.to raise_error "That's too much money. You've exceeded your limit of £#{Oystercard::LIMIT}."
   end
 
-  it { is_expected.to respond_to(:deduct).with(1).argument }
-
   it "should deduct given amount from balance" do
-    expect{ subject.deduct(5) }.to change{ subject.balance }.by -5
+    expect{ subject.send(:deduct, 5) }.to change{ subject.balance }.by -5
   end
 
   it { is_expected.to respond_to(:in_journey?) }
@@ -44,6 +42,13 @@ describe Oystercard do
     subject.touch_in
     subject.touch_out
     expect(subject.in_journey?).to be false
+  end
+
+  it "should change the balace after every touch out" do
+    subject.top_up(10)
+    subject.touch_in
+    subject.touch_out
+    expect{ subject.touch_out }.to change{ subject.balance }.by -1
   end
 
   it "it should raise an error if your balance has insufficient funds" do
