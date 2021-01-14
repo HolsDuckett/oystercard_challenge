@@ -21,8 +21,8 @@ describe Oystercard do
     end
 
     it "should raise an error if max limit exceeded" do
-      subject.top_up(Oystercard::LIMIT)
-     expect{ subject.top_up(1) }.to raise_error "That's too much money. You've exceeded your limit of £#{Oystercard::LIMIT}."
+      subject.top_up(Oystercard::MAXIMUM_CARD_VALUE)
+     expect{ subject.top_up(1) }.to raise_error "Maximum card value £#{Oystercard::MAXIMUM_CARD_VALUE}."
     end
   end
 
@@ -57,7 +57,7 @@ describe Oystercard do
     it { is_expected.to respond_to(:touch_in).with(1).argument }
 
     it "it should raise an error if your balance has insufficient funds" do
-      expect{ subject.touch_in(entry_station) }.to raise_error "You have insufficient funds."
+      expect{ subject.touch_in(entry_station) }.to raise_error "Insufficient funds."
     end
 
     it "should remember the entry station when you touch in" do

@@ -2,12 +2,10 @@ require_relative 'journey'
 
 class Oystercard
 
-  LIMIT = 90
+  MAXIMUM_CARD_VALUE = 90
   MINIMUM_FARE = 1
 
-  attr_reader :balance
-  attr_reader :entry_station
-  attr_reader :journeys
+  attr_reader :balance, :entry_station, :journeys, :journey
 
   def initialize
     @balance = 0
@@ -16,7 +14,7 @@ class Oystercard
   end
 
   def top_up(amount)
-    raise "That's too much money. You've exceeded your limit of £#{LIMIT}." if (@balance + amount) > LIMIT
+    raise "Maximum card value £#{MAXIMUM_CARD_VALUE}." if (@balance + amount) > MAXIMUM_CARD_VALUE
     @balance += amount
   end
 
@@ -25,11 +23,10 @@ class Oystercard
   end
 
   def touch_in(entry_station)
-    raise 'You have insufficient funds.' if @balance < MINIMUM_FARE
+    raise 'Insufficient funds.' if @balance < MINIMUM_FARE
     @entry_station = entry_station
     @journeys << {entry_station: entry_station, exit_station: nil}
     @journey = Journey.new(entry_station)
-    puts "in oystercard.rb def touch_in, entry_station = #{entry_station}"
     entry_station
   end
 
