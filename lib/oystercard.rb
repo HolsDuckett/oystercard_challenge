@@ -1,3 +1,5 @@
+require_relative 'journey'
+
 class Oystercard
 
   LIMIT = 90
@@ -26,6 +28,8 @@ class Oystercard
     raise 'You have insufficient funds.' if @balance < MINIMUM_FARE
     @entry_station = entry_station
     @journeys << {entry_station: entry_station, exit_station: nil}
+    @journey = Journey.new(entry_station)
+    puts "in oystercard.rb def touch_in, entry_station = #{entry_station}"
     entry_station
   end
 
