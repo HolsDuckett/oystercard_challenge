@@ -57,10 +57,10 @@ describe Oystercard do
     it { is_expected.to respond_to(:touch_in).with(1).argument }
 
     it "it should raise an error if your balance has insufficient funds" do
-      expect{ subject.touch_in(entry_station) }.to raise_error "You have insuffiecient funds."
+      expect{ subject.touch_in(entry_station) }.to raise_error "You have insufficient funds."
     end
 
-    it "should remeber the entry station when you touch in" do
+    it "should remember the entry station when you touch in" do
       subject.top_up(10)
       expect(subject.touch_in(entry_station)).to eq entry_station
     end
